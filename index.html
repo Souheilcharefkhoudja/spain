@@ -17,16 +17,19 @@
      ============================================================ */
 
   :root {
-    /* ── Color tokens (oxblood + cream, dominant + sharp accent) ── */
-    --paper: #F4EFE6;
-    --paper-2: #EBE4D6;
-    --ink: #1A1614;
-    --ink-2: #3D3530;
-    --ink-3: #6B5F55;
-    --oxblood: #6B1D2E;
-    --oxblood-deep: #4A0F1F;
-    --gilt: #A07A3C;
-    --rule: rgba(26, 22, 20, 0.12);
+    /* ── REDESIGN: deep ink base, cream text, crimson + gold ── */
+    --paper:      #F5EFE3;          /* cream — text on dark */
+    --paper-2:    #E8DFD0;
+    --ink:        #0D0A09;          /* near-black background */
+    --ink-2:      #1C1714;          /* section bg variant */
+    --ink-3:      #9A8E83;          /* muted text */
+    --oxblood:    #C0263D;          /* brighter crimson — high contrast */
+    --oxblood-deep: #8B0E22;
+    --gilt:       #D4A647;          /* richer gold */
+    --rule:       rgba(245, 239, 227, 0.10);
+    /* new tokens */
+    --surface:    #161210;          /* card / raised surface */
+    --surface-2:  #201A17;          /* hover surface */
 
     /* ── Easings (Emil: ditch the wimpy defaults) ── */
     --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
@@ -47,15 +50,14 @@
   html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
   body {
     font-family: var(--sans);
-    background: var(--paper);
-    color: var(--ink);
+    background: var(--ink);
+    color: var(--paper);
     font-size: 16px;
     line-height: 1.6;
     overflow-x: hidden;
-    /* paper-grain texture */
     background-image:
-      radial-gradient(circle at 20% 30%, rgba(107, 29, 46, 0.025) 0%, transparent 50%),
-      radial-gradient(circle at 80% 70%, rgba(160, 122, 60, 0.03) 0%, transparent 50%);
+      radial-gradient(ellipse at 15% 20%, rgba(192, 38, 61, 0.08) 0%, transparent 55%),
+      radial-gradient(ellipse at 85% 75%, rgba(212, 166, 71, 0.06) 0%, transparent 55%);
   }
 
   /* Subtle film-grain overlay (sits above paper, below content) */
@@ -91,9 +93,9 @@
     z-index: 100;
     display: flex; align-items: center; justify-content: space-between;
     padding: 20px 40px;
-    background: rgba(244, 239, 230, 0.85);
-    backdrop-filter: blur(12px) saturate(1.2);
-    -webkit-backdrop-filter: blur(12px) saturate(1.2);
+    background: rgba(13, 10, 9, 0.88);
+    backdrop-filter: blur(16px) saturate(1.4);
+    -webkit-backdrop-filter: blur(16px) saturate(1.4);
     border-bottom: 1px solid var(--rule);
     transition: padding 300ms var(--ease-out);
   }
@@ -105,7 +107,7 @@
     font-size: 24px;
     letter-spacing: -0.02em;
     font-variation-settings: "opsz" 144;
-    color: var(--ink);
+    color: var(--paper);
     text-decoration: none;
     display: flex; align-items: baseline; gap: 6px;
   }
@@ -129,7 +131,7 @@
     font-weight: 500;
     letter-spacing: 0.12em;
     text-transform: uppercase;
-    color: var(--ink-2);
+    color: rgba(245,239,227,0.6);
     text-decoration: none;
     position: relative;
     padding: 8px 0;
@@ -158,8 +160,8 @@
     letter-spacing: 0.15em;
     text-transform: uppercase;
     background: transparent;
-    border: 1px solid var(--rule);
-    color: var(--ink);
+    border: 1px solid rgba(245,239,227,0.18);
+    color: var(--paper);
     padding: 8px 14px;
     cursor: pointer;
     border-radius: 999px;
@@ -176,8 +178,8 @@
     position: absolute;
     top: calc(100% + 8px);
     right: 0;
-    background: var(--paper);
-    border: 1px solid var(--rule);
+    background: var(--surface);
+    border: 1px solid rgba(245,239,227,0.12);
     border-radius: 8px;
     padding: 6px;
     min-width: 160px;
@@ -199,7 +201,7 @@
     padding: 10px 12px;
     font-family: var(--sans);
     font-size: 13px;
-    color: var(--ink-2);
+    color: rgba(245,239,227,0.7);
     cursor: pointer;
     border-radius: 6px;
     transition: background 140ms var(--ease-out), color 140ms var(--ease-out);
@@ -236,7 +238,7 @@
     font-size: 11px;
     letter-spacing: 0.2em;
     text-transform: uppercase;
-    color: var(--ink-3);
+    color: rgba(245,239,227,0.5);
     opacity: 0;
     animation: fadeUp 800ms var(--ease-out) 200ms forwards;
   }
@@ -244,6 +246,14 @@
     content: '';
     width: 32px; height: 1px;
     background: var(--gilt);
+  }
+  /* Crimson accent bar at bottom of hero */
+  .hero::after {
+    content: '';
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, transparent 0%, var(--oxblood) 30%, var(--gilt) 65%, transparent 100%);
   }
 
   .hero-inner { max-width: 1400px; margin: 0 auto; width: 100%; position: relative; z-index: 2; }
@@ -254,7 +264,7 @@
     font-size: clamp(56px, 11vw, 168px);
     line-height: 0.92;
     letter-spacing: -0.035em;
-    color: var(--ink);
+    color: var(--paper);
     font-variation-settings: "opsz" 144;
   }
   .display .italic {
@@ -289,7 +299,7 @@
     font-family: var(--serif);
     font-size: 22px;
     line-height: 1.5;
-    color: var(--ink-2);
+    color: rgba(245,239,227,0.72);
     font-weight: 300;
     opacity: 0;
     animation: fadeUp 800ms var(--ease-out) 600ms forwards;
@@ -308,7 +318,7 @@
     font-size: 11px;
     letter-spacing: 0.18em;
     text-transform: uppercase;
-    color: var(--ink-3);
+    color: rgba(245,239,227,0.45);
     margin-bottom: 8px;
   }
   .hero-meta-loc {
@@ -316,7 +326,7 @@
     font-style: italic;
     font-weight: 400;
     font-size: 28px;
-    color: var(--ink);
+    color: var(--paper);
     letter-spacing: -0.01em;
   }
 
@@ -360,12 +370,12 @@
 
   .btn-ghost {
     background: transparent;
-    color: var(--ink);
-    border: 1px solid var(--ink);
+    color: var(--paper);
+    border: 1px solid rgba(245,239,227,0.35);
   }
   .btn-ghost:hover {
-    background: var(--ink);
-    color: var(--paper);
+    background: rgba(245,239,227,0.1);
+    border-color: var(--paper);
   }
   .btn-ghost:active { transform: scale(0.97); }
 
@@ -384,7 +394,7 @@
     font-size: 50vw;
     line-height: 0.8;
     color: var(--oxblood);
-    opacity: 0.04;
+    opacity: 0.12;
     pointer-events: none;
     z-index: 1;
     user-select: none;
@@ -400,6 +410,15 @@
     max-width: 1400px;
     margin: 0 auto;
   }
+  /* Full-bleed section wrappers for alternating bg */
+  #services  { background: var(--ink); }
+  #voices    { background: var(--ink-2); }
+  #process   { background: var(--ink); }
+  #faq       { background: var(--ink-2); }
+  #services .section,
+  #voices .section,
+  #process .section,
+  #faq .section { max-width: 1400px; margin: 0 auto; background: transparent; }
   .section-head {
     display: grid;
     grid-template-columns: 80px 1fr;
@@ -407,7 +426,7 @@
     align-items: baseline;
     margin-bottom: 80px;
     padding-bottom: 32px;
-    border-bottom: 1px solid var(--rule);
+    border-bottom: 1px solid rgba(245,239,227,0.10);
   }
   .section-num {
     font-family: var(--display);
@@ -423,7 +442,7 @@
     font-size: clamp(36px, 6vw, 88px);
     line-height: 0.98;
     letter-spacing: -0.025em;
-    color: var(--ink);
+    color: var(--paper);
   }
   .section-title em {
     font-style: italic;
@@ -435,7 +454,7 @@
     font-size: 11px;
     letter-spacing: 0.2em;
     text-transform: uppercase;
-    color: var(--ink-3);
+    color: rgba(245,239,227,0.4);
     margin-bottom: 16px;
   }
 
@@ -447,8 +466,8 @@
     font-weight: 300;
     font-size: 38vw;
     line-height: 0.8;
-    color: var(--ink);
-    opacity: 0.025;
+    color: var(--paper);
+    opacity: 0.03;
     pointer-events: none;
     user-select: none;
     z-index: 0;
@@ -466,15 +485,16 @@
     z-index: 2;
   }
   .service {
-    background: rgba(244, 239, 230, 0.4);
-    border: 1px solid var(--rule);
+    background: var(--surface);
+    border: 1px solid rgba(245,239,227,0.08);
     padding: 40px 32px 32px;
     position: relative;
     overflow: hidden;
     cursor: default;
     transition: border-color 280ms var(--ease-out),
                 background 280ms var(--ease-out),
-                transform 360ms var(--ease-out);
+                transform 360ms var(--ease-out),
+                box-shadow 400ms var(--ease-out);
   }
   /* Asymmetric placement — magazine feel */
   .service:nth-child(1) { grid-column: span 5; min-height: 320px; }
@@ -486,7 +506,8 @@
 
   .service:hover {
     border-color: var(--oxblood);
-    background: rgba(244, 239, 230, 0.7);
+    background: var(--surface-2);
+    box-shadow: 0 0 0 1px var(--oxblood), 0 24px 48px -12px rgba(192,38,61,0.25);
   }
   .service-num {
     font-family: var(--display);
@@ -505,7 +526,7 @@
     line-height: 1.05;
     letter-spacing: -0.015em;
     margin-bottom: 16px;
-    color: var(--ink);
+    color: var(--paper);
   }
   .service h3 em {
     font-style: italic;
@@ -517,7 +538,7 @@
     font-family: var(--serif);
     font-size: 17px;
     line-height: 1.55;
-    color: var(--ink-2);
+    color: rgba(245,239,227,0.6);
     font-weight: 400;
     max-width: 42ch;
   }
@@ -537,7 +558,7 @@
     gap: 64px;
     align-items: start;
     padding-bottom: 80px;
-    border-bottom: 1px solid var(--rule);
+    border-bottom: 1px solid rgba(245,239,227,0.08);
   }
   .quote:last-child { border-bottom: none; padding-bottom: 0; }
   .quote:nth-child(even) {
@@ -551,7 +572,7 @@
     font-size: clamp(24px, 3vw, 42px);
     line-height: 1.2;
     letter-spacing: -0.015em;
-    color: var(--ink);
+    color: var(--paper);
   }
   .quote-text::before {
     content: '“';
@@ -571,7 +592,7 @@
   }
 
   .quote-meta {
-    border-top: 1px solid var(--ink);
+    border-top: 1px solid rgba(245,239,227,0.2);
     padding-top: 16px;
   }
   .quote-stars {
@@ -584,14 +605,14 @@
     font-family: var(--display);
     font-weight: 500;
     font-size: 16px;
-    color: var(--ink);
+    color: var(--paper);
     margin-bottom: 4px;
   }
   .quote-loc {
     font-family: var(--serif);
     font-style: italic;
     font-size: 14px;
-    color: var(--ink-3);
+    color: rgba(245,239,227,0.4);
   }
 
   /* ============================================================
@@ -632,12 +653,13 @@
     line-height: 1.1;
     margin-bottom: 16px;
     letter-spacing: -0.015em;
+    color: var(--paper);
   }
   .step p {
     font-family: var(--serif);
     font-size: 18px;
     line-height: 1.55;
-    color: var(--ink-2);
+    color: rgba(245,239,227,0.6);
     font-weight: 400;
   }
 
@@ -650,9 +672,9 @@
     max-width: 1000px;
   }
   .faq-item {
-    border-top: 1px solid var(--rule);
+    border-top: 1px solid rgba(245,239,227,0.08);
   }
-  .faq-item:last-child { border-bottom: 1px solid var(--rule); }
+  .faq-item:last-child { border-bottom: 1px solid rgba(245,239,227,0.08); }
   .faq-trigger {
     display: grid;
     grid-template-columns: 48px 1fr 48px;
@@ -684,7 +706,7 @@
     font-weight: 400;
     font-size: clamp(20px, 2vw, 26px);
     line-height: 1.25;
-    color: var(--ink);
+    color: var(--paper);
     letter-spacing: -0.01em;
     transition: color 180ms var(--ease-out);
   }
@@ -697,7 +719,7 @@
   .faq-icon::after {
     content: '';
     position: absolute;
-    background: var(--ink);
+    background: var(--paper);
     transition: transform 280ms var(--ease-out), background 200ms var(--ease-out);
   }
   .faq-icon::before { /* horizontal */
@@ -727,7 +749,7 @@
     font-family: var(--serif);
     font-size: 19px;
     line-height: 1.6;
-    color: var(--ink-2);
+    color: rgba(245,239,227,0.65);
     font-weight: 400;
     max-width: 65ch;
     opacity: 0;
@@ -740,8 +762,9 @@
      CONTACT — oxblood spread, the climactic page
      ============================================================ */
   .contact {
-    background: var(--oxblood-deep);
+    background: #080506;
     color: var(--paper);
+    border-top: 1px solid rgba(192,38,61,0.4);
     padding: 120px 40px 80px;
     margin-top: 80px;
     position: relative;
@@ -958,8 +981,9 @@
      FOOTER
      ============================================================ */
   footer {
-    background: var(--ink);
-    color: rgba(244, 239, 230, 0.6);
+    background: #050303;
+    color: rgba(245, 239, 227, 0.45);
+    border-top: 1px solid rgba(245,239,227,0.06);
     padding: 48px 40px;
     text-align: center;
     font-family: var(--sans);
@@ -1052,7 +1076,7 @@
   .mobile-drawer {
     display: none;
     position: fixed; top: 0; left: 0; right: 0; bottom: 0;
-    background: var(--paper);
+    background: var(--ink);
     z-index: 99;
     flex-direction: column;
     justify-content: center;
@@ -1066,7 +1090,7 @@
   .mobile-drawer .m-link {
     font-family: var(--display); font-weight: 300;
     font-size: clamp(30px, 9vw, 48px);
-    letter-spacing: -0.02em; color: var(--ink);
+    letter-spacing: -0.02em; color: var(--paper);
     text-decoration: none; font-variation-settings: "opsz" 144;
     transition: color 180ms var(--ease-out);
     padding: 10px 0; text-align: center; display: block;
@@ -1181,6 +1205,24 @@
     .floating-call .pulse { width: 24px; height: 24px; }
   }
 
+  /* Crimson + gold accent rule between major sections */
+  #services  { border-top: 1px solid rgba(192,38,61,0.25); }
+  #voices    { border-top: 2px solid rgba(212,166,71,0.2); }
+  #process   { border-top: 1px solid rgba(192,38,61,0.2); }
+  #faq       { border-top: 2px solid rgba(212,166,71,0.15); }
+  .contact   { border-top: 2px solid rgba(192,38,61,0.5); }
+
+  /* Step number — vivid crimson */
+  .step-num { color: var(--oxblood); }
+  /* Hamburger on dark */
+  .hamburger span { background: var(--paper); }
+  /* Mobile lang btn on dark */
+  .mobile-lang button { border-color: rgba(245,239,227,0.15); color: rgba(245,239,227,0.6); }
+  .mobile-lang button.active,
+  .mobile-lang button:hover { border-color: var(--oxblood); color: var(--oxblood); background: rgba(192,38,61,0.08); }
+  /* Contact divider */
+  .contact-divider { background: rgba(245,239,227,0.15); }
+
   /* RTL — Arabic */
   html[dir="rtl"] .nav-link::after { transform-origin: left; }
   html[dir="rtl"] .nav-link:hover::after { transform-origin: right; }
@@ -1196,15 +1238,18 @@
     inset: 0;
     width: 100%; height: 100%;
     object-fit: cover;
-    opacity: 0;
+    opacity: 0.12;
     transition: opacity 600ms var(--ease-out), transform 800ms var(--ease-out);
     z-index: 0;
-    filter: grayscale(30%) brightness(0.55) contrast(1.1);
+    filter: grayscale(20%) brightness(0.4) contrast(1.2);
     transform: scale(1.04);
+    mix-blend-mode: luminosity;
   }
   .service:hover .service-img {
-    opacity: 1;
+    opacity: 0.55;
     transform: scale(1.0);
+    mix-blend-mode: normal;
+    filter: grayscale(0%) brightness(0.55) contrast(1.1);
   }
   /* Keep text above image */
   .service > :not(.service-img) {
