@@ -1374,7 +1374,7 @@
       <span class="line"><span class="italic" data-i="hero_l3">understood.</span></span>
     </h1>
     <div class="hero-row">
-      <p class="hero-sub" data-i="hero_sub">A bespoke companion for travellers who don't speak the language — beside you for the ordinary errands, the <em>extraordinary</em> moments, and everything between.</p>
+      <p class="hero-sub"><span data-i="hero_sub">A bespoke companion for travellers who don't speak the language — beside you for the ordinary errands, the extraordinary moments, and everything between.</span></p>
       <div class="hero-meta">
         <div class="hero-meta-label" data-i="hero_meta_label">Available across</div>
         <div class="hero-meta-loc" data-i="hero_meta_loc">All of Spain</div>
@@ -1791,16 +1791,35 @@
   let lang = 'en';
   function setLang(code) {
     lang = code;
+
+    // Update every [data-i] element — use textContent safely
+    // (elements with children e.g. <em> need innerHTML care, but all data-i targets here are leaf nodes or spans)
     document.querySelectorAll('[data-i]').forEach(el => {
       const k = el.dataset.i;
-      if (T[code] && T[code][k]) el.textContent = T[code][k];
+      if (T[code] && T[code][k] !== undefined) {
+        // Only update if the element has no meaningful child elements (safe for spans, labels, links)
+        el.textContent = T[code][k];
+      }
     });
+
+    // RTL
     document.documentElement.lang = code;
     document.documentElement.dir = code === 'ar' ? 'rtl' : 'ltr';
+
+    // Desktop lang selector
     document.getElementById('langLabel').textContent = code.toUpperCase();
-    document.querySelectorAll('.lang-menu button').forEach(b => b.classList.toggle('active', b.dataset.lang === code));
+    document.querySelectorAll('.lang-menu button').forEach(b =>
+      b.classList.toggle('active', b.dataset.lang === code));
     document.getElementById('lang').classList.remove('open');
     document.getElementById('langBtn').setAttribute('aria-expanded', 'false');
+
+    // Mobile drawer lang buttons
+    document.querySelectorAll('.mobile-lang button[data-mlang]').forEach(b =>
+      b.classList.toggle('active', b.dataset.mlang === code));
+
+    // RTL on mobile drawer
+    const drawer = document.getElementById('mobileDrawer');
+    if (drawer) drawer.dir = code === 'ar' ? 'rtl' : 'ltr';
   }
 
   // Lang dropdown
